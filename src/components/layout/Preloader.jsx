@@ -1,12 +1,13 @@
 import { useRef } from 'react';
-import { gsap, useGSAP } from '../../lib/motion';
+import { gsap, useGSAP, prefersReducedMotion } from '../../lib/motion';
 import { Equalizer } from '../ui/Primitives';
 
 /**
- * First-visit splash screen.
+ * Splash screen, shown on every full page load.
  * The 2Forty2 badge spins up out of a blur, a progress ring draws around it
  * and the loading line fills, light sweeps across the badge, and the
  * panel lifts away to reveal the site.
+ * Reduced-motion devices get a calm version: the logo simply fades in and out.
  */
 export default function Preloader({ onReveal, onDone }) {
   const root = useRef(null);
@@ -15,6 +16,16 @@ export default function Preloader({ onReveal, onDone }) {
     () => {
       const q = (k) => `[data-pl="${k}"]`;
       const tl = gsap.timeline({ onComplete: onDone });
+
+      if (prefersReducedMotion()) {
+        gsap.set(q('ring'), { strokeDashoffset: 0 });
+        gsap.set(q('bar'), { scaleX: 1 });
+        gsap.set([q('pulse'), q('shine')], { autoAlpha: 0 });
+        tl.fromTo([q('glow'), q('orbit'), q('logo'), q('tag'), q('corner')], { autoAlpha: 0 }, { autoAlpha: 1, duration: 0.6, ease: 'power1.out' }, 0)
+          .add(() => onReveal?.(), 1.7)
+          .to(root.current, { autoAlpha: 0, duration: 0.5, ease: 'power1.inOut' }, 1.7);
+        return;
+      }
 
       tl.fromTo(q('glow'), { autoAlpha: 0, scale: 0.6 }, { autoAlpha: 1, scale: 1, duration: 1.4, ease: 'power2.out' }, 0)
         .fromTo(q('orbit'), { autoAlpha: 0, scale: 0.7 }, { autoAlpha: 1, scale: 1, duration: 1.2, ease: 'expo.out' }, 0.1)

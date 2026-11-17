@@ -6,7 +6,7 @@ import Preloader from './components/layout/Preloader';
 import Cursor from './components/layout/Cursor';
 import ScrollProgress from './components/layout/ScrollProgress';
 import { AppStateProvider, useAppState } from './context/AppState';
-import { ScrollTrigger, prefersReducedMotion } from './lib/motion';
+import { ScrollTrigger } from './lib/motion';
 import { scrollToTarget } from './lib/smoothScroll';
 import Home from './pages/Home';
 import About from './pages/About';
@@ -18,14 +18,16 @@ import Book from './pages/Book';
 import Contact from './pages/Contact';
 import NotFound from './pages/NotFound';
 
-const INTRO_KEY = '2f2-intro-seen';
-
+/**
+ * The splash plays on every full page load (opening the link, refreshing),
+ * on every device. It does not replay when moving between pages inside the
+ * site. Add ?nosplash to the URL to skip it (handy for testing).
+ */
 function shouldShowPreloader() {
-  if (prefersReducedMotion()) return false;
   try {
-    return !sessionStorage.getItem(INTRO_KEY);
+    return !new URLSearchParams(window.location.search).has('nosplash');
   } catch {
-    return false;
+    return true;
   }
 }
 
@@ -47,14 +49,7 @@ function Shell({ showIntro }) {
       </a>
       {preloading && (
         <Preloader
-          onReveal={() => {
-            setIntroDone(true);
-            try {
-              sessionStorage.setItem(INTRO_KEY, '1');
-            } catch {
-              /* storage unavailable — intro will simply replay */
-            }
-          }}
+          onReveal={() => setIntroDone(true)}
           onDone={() => setPreloading(false)}
         />
       )}
