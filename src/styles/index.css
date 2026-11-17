@@ -1,0 +1,194 @@
+@import "tailwindcss";
+
+/* ==========================================================================
+   2FORTY2 — DESIGN SYSTEM
+   Palette is derived from the brand mark: deep stage-black, ink navy and an
+   electric "signal" blue. Ember is reserved strictly for the LIVE indicator.
+   ========================================================================== */
+@theme {
+  --color-ink: #07080a;
+  --color-coal: #0c0e12;
+  --color-graphite: #14171d;
+  --color-steel: #232832;
+  --color-smoke: #3a404c;
+  --color-mist: #9199a6;
+  --color-fog: #c9ced6;
+  --color-bone: #f3f0ea;
+  --color-navy: #0a1a44;
+  --color-signal: #3d6bff;
+  --color-signal-soft: #7f9dff;
+  --color-ember: #ff4f2e;
+
+  --font-display: "Archivo Variable", "Noto Sans Sinhala Variable", "Helvetica Neue", Arial, sans-serif;
+  --font-serif: "Instrument Serif", "Noto Sans Sinhala Variable", Georgia, serif;
+  --font-sans: "Inter Variable", "Noto Sans Sinhala Variable", system-ui, -apple-system, "Segoe UI", sans-serif;
+  --font-brand: "Orbitron", "Archivo Variable", sans-serif;
+
+  --ease-expo: cubic-bezier(0.16, 1, 0.3, 1);
+  --ease-curtain: cubic-bezier(0.76, 0, 0.24, 1);
+
+  --animate-marquee: marquee 38s linear infinite;
+  --animate-eq: eq 1.1s ease-in-out infinite;
+  --animate-spin-slow: spin 18s linear infinite;
+  --animate-kenburns: kenburns 22s ease-in-out infinite alternate;
+  --animate-scrollcue: scrollcue 2.2s var(--ease-curtain) infinite;
+  --animate-rise: rise 60s linear infinite;
+  --animate-fall: fall 60s linear infinite;
+
+  @keyframes marquee {
+    from { transform: translate3d(0, 0, 0); }
+    to { transform: translate3d(-50%, 0, 0); }
+  }
+  @keyframes eq {
+    0%, 100% { transform: scaleY(0.25); }
+    50% { transform: scaleY(1); }
+  }
+  @keyframes kenburns {
+    from { transform: scale(1) translate3d(0, 0, 0); }
+    to { transform: scale(1.08) translate3d(-1.5%, -1%, 0); }
+  }
+  @keyframes rise {
+    from { transform: translate3d(0, 0, 0); }
+    to { transform: translate3d(0, -50%, 0); }
+  }
+  @keyframes fall {
+    from { transform: translate3d(0, -50%, 0); }
+    to { transform: translate3d(0, 0, 0); }
+  }
+  @keyframes scrollcue {
+    0% { transform: translateY(-100%); }
+    60%, 100% { transform: translateY(260%); }
+  }
+}
+
+/* ---------- Base ---------- */
+@layer base {
+  html {
+    -webkit-text-size-adjust: 100%;
+    text-rendering: optimizeLegibility;
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+    background: var(--color-ink);
+    color-scheme: dark;
+  }
+  body {
+    -webkit-tap-highlight-color: transparent;
+    background: var(--color-ink);
+    color: var(--color-bone);
+    font-family: var(--font-sans);
+    overflow-x: clip;
+  }
+  ::selection {
+    background: var(--color-signal);
+    color: #fff;
+  }
+  :focus-visible {
+    outline: 2px solid var(--color-signal-soft);
+    outline-offset: 3px;
+  }
+  img,
+  video {
+    max-width: 100%;
+    display: block;
+  }
+  button {
+    cursor: pointer;
+  }
+  input[type="date"]::-webkit-calendar-picker-indicator {
+    filter: invert(1);
+    opacity: 0.6;
+    cursor: pointer;
+  }
+}
+
+/* ---------- Utilities & building blocks ---------- */
+@layer components {
+  .container-x {
+    width: 100%;
+    margin-inline: auto;
+    padding-inline: 1.25rem;
+    max-width: 1680px;
+  }
+  @media (min-width: 768px) {
+    .container-x { padding-inline: 2.5rem; }
+  }
+  @media (min-width: 1280px) {
+    .container-x { padding-inline: 4rem; }
+  }
+
+  /* Oversized editorial display type — fluid between phone and wide desktop */
+  .t-mega { font-family: var(--font-display); font-weight: 800; text-transform: uppercase; line-height: 0.9; letter-spacing: -0.035em; font-size: clamp(3rem, 8.5vw, 8.5rem); }
+  .t-hero { font-family: var(--font-display); font-weight: 800; text-transform: uppercase; line-height: 0.95; letter-spacing: -0.03em; font-size: clamp(2.2rem, 4.8vw, 5rem); }
+  .t-h1 { font-family: var(--font-display); font-weight: 800; text-transform: uppercase; line-height: 0.98; letter-spacing: -0.025em; font-size: clamp(1.85rem, 3.4vw, 3.6rem); }
+  .t-h2 { font-family: var(--font-display); font-weight: 800; text-transform: uppercase; line-height: 1; letter-spacing: -0.02em; font-size: clamp(1.6rem, 2.7vw, 2.75rem); }
+  .t-h3 { font-family: var(--font-display); font-weight: 700; text-transform: uppercase; line-height: 1.05; letter-spacing: -0.01em; font-size: clamp(1.2rem, 1.5vw, 1.6rem); }
+  .t-statement { font-family: var(--font-sans); font-weight: 500; line-height: 1.25; letter-spacing: -0.025em; font-size: clamp(1.25rem, 2.1vw, 2.1rem); }
+  .t-lead { font-size: clamp(0.98rem, 1.05vw, 1.08rem); line-height: 1.7; color: var(--color-fog); }
+  .t-eyebrow { font-family: var(--font-sans); font-size: 0.72rem; font-weight: 600; letter-spacing: 0.24em; text-transform: uppercase; color: var(--color-mist); }
+  .t-accent { font-family: var(--font-serif); font-style: italic; font-weight: 400; text-transform: none; letter-spacing: -0.005em; font-size: 1.08em; }
+
+  /* Split-text masks used by AnimatedHeading */
+  .split-word { display: inline-block; overflow: hidden; vertical-align: top; padding-bottom: 0.06em; margin-bottom: -0.06em; }
+  .split-inner { display: inline-block; will-change: transform; }
+
+  /* Hairlines */
+  .hairline { height: 1px; background: rgb(255 255 255 / 0.12); }
+
+  /* Film grain overlay — adds cinematic texture over the whole site */
+  .grain::after {
+    display: none;
+    content: "";
+    position: fixed;
+    inset: -50%;
+    z-index: 90;
+    pointer-events: none;
+    opacity: 0.05;
+    background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='160' height='160'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='3' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E");
+  }
+
+  @media (min-width: 768px) {
+    .grain::after { display: block; }
+  }
+  h1, h2, h3 { overflow-wrap: break-word; text-wrap: balance; }
+
+  /* Image vignette helpers */
+  .shade-b { background: linear-gradient(to top, rgb(7 8 10 / 0.95) 0%, rgb(7 8 10 / 0.35) 45%, rgb(7 8 10 / 0) 75%); }
+  .shade-full { background: linear-gradient(to top, rgb(7 8 10 / 1) 0%, rgb(7 8 10 / 0.55) 40%, rgb(7 8 10 / 0.35) 70%, rgb(7 8 10 / 0.7) 100%); }
+
+  /* Outline display text */
+  .text-outline { color: transparent; -webkit-text-stroke: 1px rgb(243 240 234 / 0.35); }
+
+  /* Form fields */
+  .field-input {
+    width: 100%;
+    background: transparent;
+    border: 0;
+    border-bottom: 1px solid rgb(255 255 255 / 0.18);
+    padding: 1.6rem 0 0.7rem;
+    font-size: 1.05rem;
+    color: var(--color-bone);
+    border-radius: 0;
+    transition: border-color 0.3s;
+    appearance: none;
+  }
+  .field-input:focus { outline: none; border-color: var(--color-signal); }
+  .field-input[aria-invalid="true"] { border-color: var(--color-ember); }
+  .field-input::placeholder { color: transparent; }
+  select.field-input option { background: var(--color-graphite); color: var(--color-bone); }
+}
+
+/* Hide scrollbar on horizontal rails while keeping them scrollable */
+.no-scrollbar { scrollbar-width: none; }
+.no-scrollbar::-webkit-scrollbar { display: none; }
+
+/* ---------- Reduced motion ---------- */
+@media (prefers-reduced-motion: reduce) {
+  *,
+  *::before,
+  *::after {
+    animation-duration: 0.001ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.001ms !important;
+    scroll-behavior: auto !important;
+  }
+}
