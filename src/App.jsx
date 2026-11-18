@@ -76,7 +76,7 @@ function Shell({ showIntro }) {
 export default function App() {
   const [showIntro] = useState(shouldShowPreloader);
   return (
-    <MotionConfig reducedMotion="user">
+    <MotionConfig reducedMotion="never">
       <AppStateProvider initialIntroDone={!showIntro}>
         <div className="grain">
           <Shell showIntro={showIntro} />

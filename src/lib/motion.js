@@ -12,8 +12,20 @@ export const EASE = {
   curtain: [0.76, 0, 0.24, 1],
 };
 
+/**
+ * The site plays the same motion on every device. Many phones switch on
+ * "reduce motion" / "remove animations" automatically (battery saver,
+ * accessibility presets), which used to freeze the photo strips and skip all
+ * scroll reveals on mobile. Set this to true to honour that setting again.
+ */
+export const RESPECT_REDUCED_MOTION = false;
+
 export function prefersReducedMotion() {
-  return typeof window !== 'undefined' && window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+  return (
+    RESPECT_REDUCED_MOTION &&
+    typeof window !== 'undefined' &&
+    window.matchMedia('(prefers-reduced-motion: reduce)').matches
+  );
 }
 
 export function isFinePointer() {

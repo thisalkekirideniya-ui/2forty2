@@ -1,7 +1,8 @@
 /**
  * A tilted wall of band photos drifting in alternating directions.
  * Used behind the hero and closing sections. Pure CSS animation, so it is
- * cheap to run and freezes automatically for reduced-motion users.
+ * cheap to run. Images load eagerly: lazy images inside a moving track often
+ * never load on mobile browsers, leaving blank gaps that look "stuck".
  */
 export default function PhotoWall({ photos, columns = 5, className = '', speed = 1 }) {
   const cols = Array.from({ length: columns }, (_, c) =>
@@ -22,7 +23,7 @@ export default function PhotoWall({ photos, columns = 5, className = '', speed =
                   key={i}
                   src={ph.src}
                   alt=""
-                  loading={i < 3 ? 'eager' : 'lazy'}
+                  loading="eager"
                   decoding="async"
                   className="aspect-[4/5] w-full rounded-[3px] object-cover"
                 />
@@ -44,7 +45,7 @@ export function PhotoStrip({ photos, reverse = false, className = '' }) {
           key={i}
           src={ph.src}
           alt=""
-          loading="lazy"
+          loading="eager"
           decoding="async"
           className="h-44 w-auto shrink-0 rounded-[3px] object-cover grayscale transition-[filter] duration-700 hover:grayscale-0 md:h-64"
         />
